@@ -6,7 +6,7 @@ public class BannerAd : MonoBehaviour
 {
     private BannerView _bannerView;
 
-    private string _bannerUnitId = "ca-app-pub-3839680777472291/7107444260";
+    private string _bannerUnitId = "ca-app-pub-3940256099942544/6300978111";
 
     private void OnEnable()
     {
