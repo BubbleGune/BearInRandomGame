@@ -15,6 +15,6 @@ public class PlayerOutWallet : MonoBehaviour
 
     private void ShowMoney()
     {
-        _text.text = $"Δενεγ: {_money}";
+        _text.text = _money.ToString();
     }
 }

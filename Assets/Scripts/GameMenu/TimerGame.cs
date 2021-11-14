@@ -1,37 +1,53 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(CanvasGroup))]
 public class TimerGame : MonoBehaviour
 {
-    [SerializeField] private float _time;
+    [SerializeField] private Text _text;
+    [SerializeField] private ClickBear _click;
+    [SerializeField] private Score _score;
 
-    private CanvasGroup _visible;
+    private float _increaseTime = 2;
 
-    public float Seconds => _time;
+    public float Seconds { get; private set; } = 3;
 
-    public event UnityAction<float> TimeGone;
+    public event UnityAction Stop;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _visible = GetComponent<CanvasGroup>();
+        _click.BearClick += IncreaseTimeGame;
+        _score.IncreaseComplexity += IncreaseComplexity;
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        CloseMenu();
-        TimeGone?.Invoke(_time);
+        _click.BearClick -= IncreaseTimeGame;
+        _score.IncreaseComplexity -= IncreaseComplexity;
     }
 
-    public void ShowMenu()
+    private void FixedUpdate()
     {
-        _visible.alpha = 1;
+        if(Seconds > 0)
+        {
+            Seconds -= Time.deltaTime;
+            _text.text = Seconds.ToString();
+        }
+        else
+        {
+            _text.text = 0.ToString();
+            Stop?.Invoke();
+        }
     }
 
-    public void CloseMenu()
+    private void IncreaseTimeGame()
     {
-        _visible.alpha = 0;
+        Seconds += _increaseTime;
+    }
+
+    private void IncreaseComplexity()
+    {
+        if(_increaseTime > 0.2f)
+            _increaseTime -= 0.2f;
     }
 }

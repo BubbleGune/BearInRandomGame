@@ -1,48 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(TimerGame))]
 public class GameOverMenu : MonoBehaviour
 {
     [SerializeField] private Text _text;
-
-    private TimerGame _timerGame;
-
-    public float Money { get; private set; }
-
-    private void Awake()
-    {
-        _timerGame = GetComponent<TimerGame>();
-    }
-
-    private void Start()
-    {
-        Money = PlayerPrefs.GetFloat("Money");
-        _text.text = _timerGame.Seconds.ToString();
-    }
+    [SerializeField] private Score _score;
+    [SerializeField] private TimerGame _timerGame;
 
     private void OnEnable()
     {
-        _timerGame.TimeGone += OnTimeGone;
+        _timerGame.Stop += OnStop;
+        _timerGame.Stop += ShowMoneyRound;
     }
 
     private void OnDisable()
     {
-        _timerGame.TimeGone -= OnTimeGone;
+        _timerGame.Stop -= OnStop;
+        _timerGame.Stop -= ShowMoneyRound;
     }
 
-    private void OnTimeGone(float time)
+    private void OnStop()
     {
-        while(time > 0)
-        {
-            time -= Time.deltaTime;
-            _text.text = _timerGame.Seconds.ToString();
-        }
-        if(time <= 0)
-        {
-            _timerGame.ShowMenu();
-        }
+        transform.position = (new Vector2(0, 0));
+    }
+
+    private void ShowMoneyRound()
+    {
+        _text.text = Mathf.Round(_score.Value / 10).ToString();
     }
 }

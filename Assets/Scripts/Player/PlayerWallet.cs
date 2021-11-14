@@ -10,7 +10,7 @@ public class PlayerWallet : MonoBehaviour
 
     private void Start()
     {
-        Money = PlayerPrefs.GetFloat("Money");
+        Money = PlayerPrefs.GetFloat(nameof(Money));
         _text.text = $"Δενεγ: {Money}";
     }
 
@@ -29,5 +29,15 @@ public class PlayerWallet : MonoBehaviour
         Money++;
         PlayerPrefs.SetFloat("Money", Money);
         _text.text = $"Δενεγ: {Money}";
+    }
+
+    public bool CheckSolvency(int price)
+    {
+        return Money >= price;
+    }
+
+    public void WidthdrawBear(int price)
+    {
+        Money -= price;
     }
 }

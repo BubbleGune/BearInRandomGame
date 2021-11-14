@@ -10,6 +10,7 @@ public class Score : MonoBehaviour
     public int Value { get; private set; }
 
     public event UnityAction UpdateWallet;
+    public event UnityAction IncreaseComplexity;
 
     private void OnEnable()
     {
@@ -26,6 +27,8 @@ public class Score : MonoBehaviour
         Value++;
         if (Value % 10 == 0)
             UpdateWallet?.Invoke();
+        if (Value % 5 == 0)
+            IncreaseComplexity?.Invoke();
         _text.text = $"—чет: {Value}";
     }
 }
