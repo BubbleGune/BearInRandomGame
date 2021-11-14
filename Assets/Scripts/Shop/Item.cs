@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
 
     private void OnBuyCollected()
     {
-        _buy.Destroy(_buyButton);
+        _buyButton.gameObject.SetActive(false);
         Debug.Log("=1");
     }
 
